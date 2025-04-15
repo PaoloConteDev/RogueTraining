@@ -28,6 +28,7 @@ fun WorkoutRecapScreen(
     val environment = viewModel.environment.collectAsStateWithLifecycle().value
     val tools = viewModel.tools.collectAsStateWithLifecycle().value
     val muscleGroups = viewModel.muscleGroups.collectAsStateWithLifecycle().value
+    val trainingType = viewModel.trainingType.collectAsStateWithLifecycle().value
 
     // Format duration for display
     val formattedDuration = when (duration) {
@@ -90,11 +91,12 @@ fun WorkoutRecapScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+                InfoRow("Tipo di Allenamento", trainingType)
                 InfoRow("Frequenza", "$frequency volte a settimana")
                 InfoRow("Durata", formattedDuration)
                 InfoRow("Intensità", intensity?.name ?: "Non impostata")
                 InfoRow("Ambiente", environment?.name ?: "Non impostato")
-                InfoRow("Strumenti", tools.joinToString(", "))
+                // InfoRow("Strumenti", tools.joinToString(", "))
                 InfoRow("Gruppi Muscolari", muscleGroups.joinToString(", "))
             }
         }

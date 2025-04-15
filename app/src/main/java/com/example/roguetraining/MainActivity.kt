@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     viewModel.setWeight(75) // Default weight
                     viewModel.setHeight(175) // Default height
                     viewModel.setAge(30) // Default age
-                    viewModel.setTrainingType("Strength") // Default training type
+                    viewModel.setTrainingType("Mixed") // Default training type
                     viewModel.setFrequency(3) // Default frequency
                     viewModel.setDuration(2) // Default to 1 hour (medium)
                     viewModel.setIntensity(TrainingIntensity.MEDIUM) // Default intensity
@@ -107,6 +107,7 @@ class MainActivity : ComponentActivity() {
                             progress = progress,
                             onSkip = {
                                 setDefaultSettings()
+                                viewModel.generateWorkout() // Generate workout with default settings
                                 navController.navigate("recap")
                             }
                         )

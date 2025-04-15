@@ -7,6 +7,7 @@ data class WorkoutSet(
     val sets: Int,
     val reps: Int,
     val restTime: Int,
+    val recommendedWeight: String? = null,
     private val completedSets: MutableList<Boolean> = MutableList(sets) { false }
 ) {
     fun markSetComplete(setIndex: Int) {

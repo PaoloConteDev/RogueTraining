@@ -44,6 +44,13 @@ fun WorkoutScreen(
     val scope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
 
+    // Se non ci sono esercizi, mostra un messaggio e torna indietro
+    LaunchedEffect(workoutSets) {
+        if (workoutSets.isEmpty()) {
+            onBack()
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -213,6 +220,16 @@ fun WorkoutScreen(
                                         )
                                     }
                                 }
+
+                                // Mostra il peso raccomandato se disponibile
+                                workoutSets[index].recommendedWeight?.let { weight ->
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = "Peso raccomandato: $weight",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color(0xFF4CAF50) // Verde per evidenziare il peso
+                                    )
+                                }
                             }
                         }
                     }
@@ -238,51 +255,52 @@ fun WorkoutScreen(
                 .background(Color(0xFF0A1929))
                 .padding(20.dp)
         ) {
-            Button(
-                onClick = {
-                    if (isResting) {
-                        isResting = false
-                        restTime = 0
-                    } else {
-                        viewModel.markSetComplete(currentSetIndex, currentRepIndex)
-                        if (currentRepIndex < workoutSets[currentSetIndex].sets - 1) {
-                            currentRepIndex++
-                            isResting = true
-                            restTime = workoutSets[currentSetIndex].restTime
-                            scope.launch {
-                                while (restTime > 0) {
-                                    delay(1000)
-                                    restTime--
-                                }
-                                isResting = false
-                            }
+            if (workoutSets.isNotEmpty()) {
+                Button(
+                    onClick = {
+                        if (isResting) {
+                            isResting = false
+                            restTime = 0
                         } else {
-                            if (currentSetIndex < workoutSets.size - 1) {
-                                currentSetIndex++
-                                currentRepIndex = 0
-                                videoError = false
+                            viewModel.markSetComplete(currentSetIndex, currentRepIndex)
+                            if (currentRepIndex < workoutSets[currentSetIndex].sets - 1) {
+                                currentRepIndex++
+                                isResting = true
+                                restTime = workoutSets[currentSetIndex].restTime
+                                scope.launch {
+                                    while (restTime > 0) {
+                                        delay(1000)
+                                        restTime--
+                                    }
+                                    isResting = false
+                                }
                             } else {
-                                onWorkoutComplete()
+                                if (currentSetIndex < workoutSets.size - 1) {
+                                    currentSetIndex++
+                                    currentRepIndex = 0
+                                    videoError = false
+                                } else {
+                                    onWorkoutComplete()
+                                }
                             }
                         }
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Text(
-                    when {
-                        isResting -> "Skip Rest"
-                        currentRepIndex < workoutSets[currentSetIndex].sets - 1 -> "Complete Set ${currentRepIndex + 1}"
-                        currentSetIndex < workoutSets.size - 1 -> "Next Exercise"
-                        else -> "Complete Workout"
                     },
-                    color = Color(0xFF0A1929),
-                    style = MaterialTheme.typography.titleMedium
-                )
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Text(
+                        when {
+                            isResting -> "Skip Rest"
+                            currentRepIndex < workoutSets[currentSetIndex].sets - 1 -> "Complete Set ${currentRepIndex + 1}"
+                            currentSetIndex < workoutSets.size - 1 -> "Next Exercise"
+                            else -> "Complete Workout"
+                        },
+                        color = Color(0xFF0A1929),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
         }
     }
