@@ -182,24 +182,23 @@ class WorkoutViewModel : ViewModel() {
 
                     val restTime = (baseRestTime * intensityFactor).toInt()
 
-                    // Calculate recommended weight if exercise requires tools
-                    val recommendedWeight = if (exercise.requiredTools.isNotEmpty()) {
-                        try {
-                            val (minWeight, maxWeight) = WeightCalculator.getWeightRange(
-                                sex = sex.value,
-                                bodyWeight = weight.value.toFloat(),
-                                height = height.value.toFloat(),
-                                age = age.value,
-                                intensity = intensity.value ?: TrainingIntensity.MEDIUM,
-                                muscleGroup = exercise.primaryMuscleGroup,
-                                exerciseName = exercise.name
-                            )
-                            "$minWeight-$maxWeight kg"
-                        } catch (e: Exception) {
-                            Log.e("WorkoutViewModel", "Error calculating weight for exercise ${exercise.name}: ${e.message}")
-                            null
-                        }
-                    } else null
+                    // Calculate recommended weight for all exercises
+                    val recommendedWeight = try {
+                        val (minWeight, maxWeight) = WeightCalculator.getWeightRange(
+                            sex = sex.value,
+                            bodyWeight = weight.value.toFloat(),
+                            height = height.value.toFloat(),
+                            age = age.value,
+                            intensity = intensity.value ?: TrainingIntensity.MEDIUM,
+                            muscleGroup = exercise.primaryMuscleGroup,
+                            exerciseName = exercise.name
+                        )
+                        Log.d("WorkoutViewModel", "Calculated weight for ${exercise.name}: $minWeight-$maxWeight kg")
+                        "$minWeight-$maxWeight kg"
+                    } catch (e: Exception) {
+                        Log.e("WorkoutViewModel", "Error calculating weight for exercise ${exercise.name}: ${e.message}")
+                        null
+                    }
 
                     workoutSets.add(WorkoutSet(
                         exercise = exercise,

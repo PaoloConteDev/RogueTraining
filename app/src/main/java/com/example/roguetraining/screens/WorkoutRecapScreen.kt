@@ -11,6 +11,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.roguetraining.WorkoutViewModel
+import com.example.roguetraining.ui.theme.AppBackground
+import com.example.roguetraining.ui.theme.AppButton
+import com.example.roguetraining.ui.theme.AppCard
+import com.example.roguetraining.ui.theme.AppColors
+import com.example.roguetraining.ui.theme.AppDimensions
 
 @Composable
 fun WorkoutRecapScreen(
@@ -41,7 +46,7 @@ fun WorkoutRecapScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(AppDimensions.screenPadding)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -49,23 +54,21 @@ fun WorkoutRecapScreen(
         Text(
             text = "Riepilogo Allenamento",
             style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = AppColors.onBackground
         )
 
         // Personal Information Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+        AppCard(
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(AppDimensions.cardPadding)
             ) {
                 Text(
                     text = "Informazioni Personali",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = AppColors.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 InfoRow("Sesso", sex)
@@ -76,19 +79,16 @@ fun WorkoutRecapScreen(
         }
 
         // Training Preferences Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+        AppCard(
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(AppDimensions.cardPadding)
             ) {
                 Text(
                     text = "Preferenze di Allenamento",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = AppColors.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 InfoRow("Tipo di Allenamento", trainingType)
@@ -103,12 +103,9 @@ fun WorkoutRecapScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(
+        AppButton(
             onClick = onStartWorkout,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            )
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Inizia Allenamento")
         }
@@ -126,12 +123,12 @@ private fun InfoRow(label: String, value: String) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = AppColors.onSurface.copy(alpha = 0.7f)
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = AppColors.onSurface
         )
     }
 } 

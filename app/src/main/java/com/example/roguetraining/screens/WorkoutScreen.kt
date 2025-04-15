@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ import android.widget.ImageView
 import android.graphics.drawable.ColorDrawable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import android.util.Log
 
 @Composable
 fun WorkoutScreen(
@@ -181,14 +183,48 @@ fun WorkoutScreen(
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         )
 
-                                        Text(
-                                            text = "${workoutSets[index].reps} reps",
-                                            style = MaterialTheme.typography.titleLarge.copy(
-                                                color = Color.White
-                                            ),
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(bottom = 16.dp)
-                                        )
+                                        // Mostra ripetizioni e peso sulla stessa riga
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 16.dp),
+                                            horizontalArrangement = Arrangement.Center,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = "${workoutSets[index].reps} Rep",
+                                                style = MaterialTheme.typography.titleLarge.copy(
+                                                    color = Color.White
+                                                ),
+                                                textAlign = TextAlign.Center
+                                            )
+                                            
+                                            // Mostra il peso raccomandato solo se l'esercizio richiede attrezzi
+                                            if (workoutSets[index].exercise.requiredTools.isNotEmpty()) {
+                                                workoutSets[index].recommendedWeight?.let { weight ->
+                                                    Log.d("WorkoutScreen", "Showing weight for ${workoutSets[index].exercise.name}: $weight")
+                                                    Text(
+                                                        text = " x ",
+                                                        style = MaterialTheme.typography.titleLarge.copy(
+                                                            color = Color.White
+                                                        ),
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                    Text(
+                                                        text = weight,
+                                                        style = MaterialTheme.typography.titleLarge.copy(
+                                                            color = Color(0xFF4CAF50),
+                                                            fontWeight = FontWeight.Bold
+                                                        ),
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                } ?: run {
+                                                    Log.d("WorkoutScreen", "No weight available for ${workoutSets[index].exercise.name}")
+                                                }
+                                            } else {
+                                                Log.d("WorkoutScreen", "No weight shown for ${workoutSets[index].exercise.name} - no tools required")
+                                            }
+                                        }
                                     } else {
                                         Text(
                                             text = "Rest Time: $restTime seconds",
@@ -219,16 +255,6 @@ fun WorkoutScreen(
                                             )
                                         )
                                     }
-                                }
-
-                                // Mostra il peso raccomandato se disponibile
-                                workoutSets[index].recommendedWeight?.let { weight ->
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        text = "Peso raccomandato: $weight",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = Color(0xFF4CAF50) // Verde per evidenziare il peso
-                                    )
                                 }
                             }
                         }

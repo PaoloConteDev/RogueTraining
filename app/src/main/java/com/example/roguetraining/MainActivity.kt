@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     viewModel.setFrequency(3) // Default frequency
                     viewModel.setDuration(2) // Default to 1 hour (medium)
                     viewModel.setIntensity(TrainingIntensity.MEDIUM) // Default intensity
-                    viewModel.setEnvironment(TrainingEnvironmentDatabase.environments[2]) // Default to Medium Gym
+                    viewModel.setEnvironment(TrainingEnvironmentDatabase.environments[3]) // Default to Medium Gym
                     viewModel.setTools(ToolDatabase.allTools.map { it.name }) // All tools
                     viewModel.setMuscleGroups(listOf("Chest", "Back", "Legs", "Shoulders", "Arms", "Core")) // All muscle groups
                 }
