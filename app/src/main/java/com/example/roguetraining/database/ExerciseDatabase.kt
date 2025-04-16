@@ -390,8 +390,6 @@ object ExerciseDatabase {
             difficulty = Difficulty.INTERMEDIATE,
             videoResource = "male_barbell_barbell_hip_thrust_front"
         ),
-        
-        //GIF
 
         // Esercizi con macchine per le gambe
         Exercise(
@@ -401,7 +399,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Leg Press Machine"),
             description = "Seduto alla macchina, posiziona i piedi sulla piattaforma. Spingi la piattaforma lontano da te estendendo le gambe, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_leg_press_front"
         ),
         Exercise(
             name = "Seated Calf Raises",
@@ -410,7 +408,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Calf Raise Machine"),
             description = "Seduto alla macchina, posiziona i piedi sulla piattaforma. Solleva i talloni, poi abbassali lentamente.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_seated_calf_raise_side"
         ),
         Exercise(
             name = "Leg Extensions",
@@ -419,7 +417,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Leg Extension Machine"),
             description = "Seduto alla macchina, posiziona le gambe sotto il rullo. Estendi le gambe, poi controlla il ritorno.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_leg_extension_front"
         ),
         Exercise(
             name = "Leg Curls",
@@ -428,9 +426,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Leg Curl Machine"),
             description = "Sdraiati sulla macchina con le gambe sotto il rullo. Piega le ginocchia avvicinando i talloni ai glutei, poi controlla il ritorno.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_hamstring_curl_side"
         ),
-        
+
         // REGIONE: SPALLE
         // Esercizi con manubri per le spalle
         Exercise(
@@ -440,7 +438,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "Seduto o in piedi con un manubrio in ogni mano all'altezza delle spalle. Spingi i manubri verso l'alto estendendo le braccia, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbell_seated_overhead_press_side"
         ),
         Exercise(
             name = "Lateral Raises",
@@ -449,7 +447,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un manubrio in ogni mano, solleva le braccia ai lati fino all'altezza delle spalle, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_lateral_raise_side"
         ),
         Exercise(
             name = "Front Raises",
@@ -458,7 +456,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un manubrio in ogni mano, solleva le braccia in avanti fino all'altezza delle spalle, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_front_raise_front"
         ),
         Exercise(
             name = "Arnold Press",
@@ -467,9 +465,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "Seduto o in piedi con un manubrio in ogni mano all'altezza delle spalle con i palmi rivolti verso di te. Ruota i polsi mentre spingi i manubri verso l'alto, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_seated_arnold_press_front"
         ),
-        
+
         // Esercizi con bilanciere per le spalle
         Exercise(
             name = "Barbell Shoulder Press",
@@ -478,7 +476,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "Seduto o in piedi con il bilanciere all'altezza delle spalle. Spingi il bilanciere verso l'alto estendendo le braccia, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_overhead_press_side"
         ),
         Exercise(
             name = "Upright Row",
@@ -487,9 +485,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "In piedi con il bilanciere davanti alle cosce, tira il bilanciere verso l'alto lungo il corpo fino all'altezza delle spalle, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_upright_row_side"
         ),
-        
+
         // REGIONE: BRACCIA
         // Esercizi con manubri per le braccia
         Exercise(
@@ -499,7 +497,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un manubrio in ogni mano, curla i manubri verso le spalle, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_curl_side"
         ),
         Exercise(
             name = "Hammer Curl",
@@ -508,16 +506,16 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un manubrio in ogni mano con i palmi rivolti l'uno verso l'altro, curla i manubri verso le spalle, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_hammer_curl_side"
         ),
         Exercise(
             name = "Tricep Extension",
             primaryMuscleGroup = "Triceps",
             secondaryMuscleGroups = listOf(),
             requiredTools = listOf("Dumbbells"),
-            description = "In piedi o seduto con un manubrio in ogni mano, solleva le braccia sopra la testa. Abbassa i manubri dietro la testa piegando i gomiti, poi estendi le braccia.",
+            description = "In piedi o seduto con un manubrio o due, solleva le braccia sopra la testa. Abbassa i manubri dietro la testa piegando i gomiti, poi estendi le braccia.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_seated_overhead_tricep_extension_side"
         ),
         Exercise(
             name = "Wrist Curl",
@@ -526,8 +524,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells", "Barbell"),
             description = "Seduto con gli avambracci appoggiati sulle cosce, afferra un manubrio o un bilanciere con i palmi rivolti verso l'alto. Curla il peso verso l'alto, poi controlla il ritorno.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_wrist_curl_side"
         ),
+        /* NO GIF
         Exercise(
             name = "Reverse Wrist Curl",
             primaryMuscleGroup = "Forearms",
@@ -535,9 +534,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells", "Barbell"),
             description = "Seduto con gli avambracci appoggiati sulle cosce, afferra un manubrio o un bilanciere con i palmi rivolti verso il basso. Curla il peso verso l'alto, poi controlla il ritorno.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "X"
         ),
-        
+        */
         // Esercizi con bilanciere per le braccia
         Exercise(
             name = "Barbell Curl",
@@ -546,7 +545,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "In piedi con i piedi alla larghezza delle spalle, afferra il bilanciere con i palmi rivolti in avanti. Curla il bilanciere verso le spalle, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_curl_side"
         ),
         Exercise(
             name = "Preacher Curl",
@@ -555,7 +554,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates", "Preacher Bench"),
             description = "Seduto alla panca preacher con i gomiti appoggiati, afferra il bilanciere con i palmi rivolti in avanti. Curla il bilanciere verso le spalle, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_ez_bar_preacher_curl_side"
         ),
         Exercise(
             name = "Skull Crushers",
@@ -564,9 +563,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "Sdraiati su una panca con il bilanciere sopra la testa. Abbassa il bilanciere dietro la testa piegando i gomiti, poi estendi le braccia.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_skullcrusher_side"
         ),
-        
+
         // Esercizi con macchine per le braccia
         Exercise(
             name = "Tricep Pushdown",
@@ -575,7 +574,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fronte a un cavo alto, afferra la barra o la corda con i palmi rivolti verso il basso. Estendi le braccia verso il basso, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_cables_cable_push_down_side"
         ),
         
         // Esercizi a corpo libero per le braccia
@@ -586,7 +585,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Parallel Bars"),
             description = "Appeso alle parallele con le braccia tese, abbassa il corpo piegando i gomiti, poi spingi verso l'alto.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_parralel_bar_dips_front"
         ),
         Exercise(
             name = "Bench Dips",
@@ -595,7 +594,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Bench"),
             description = "Seduto su una panca con le mani ai lati, abbassa il corpo piegando i gomiti, poi spingi verso l'alto.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_bench_dips_side"
         ),
         
         // REGIONE: CORE
@@ -607,7 +606,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "In posizione di plank con gli avambracci a terra. Mantieni il corpo in linea retta contraendo gli addominali.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_forearm_plank_side"
         ),
         Exercise(
             name = "Side Plank",
@@ -616,7 +615,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Appoggia un avambraccio a terra e solleva il corpo lateralmente. Mantieni la posizione con il corpo in linea retta.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_hand_side_plank_front"
         ),
         Exercise(
             name = "Russian Twists",
@@ -625,7 +624,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Siediti con le ginocchia piegate e i piedi sollevati. Ruota il busto da un lato all'altro toccando il pavimento.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_russian_twist_front"
         ),
         Exercise(
             name = "Leg Raises",
@@ -634,7 +633,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Sdraiati sulla schiena con le gambe tese. Solleva le gambe fino a 90 gradi e abbassale lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_laying_leg_raises_front"
         ),
         Exercise(
             name = "Bicycle Crunches",
@@ -643,8 +642,9 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Sdraiati sulla schiena con le mani dietro la testa. Porta il gomito destro verso il ginocchio sinistro e viceversa.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_bicycle_crunch_side"
         ),
+        /* NO GIF
         Exercise(
             name = "Hanging Leg Raise",
             primaryMuscleGroup = "Core",
@@ -654,6 +654,7 @@ object ExerciseDatabase {
             difficulty = Difficulty.INTERMEDIATE,
             videoResource = "male_bodyweight_push_up_side"
         ),
+
         Exercise(
             name = "Dragon Flag",
             primaryMuscleGroup = "Core",
@@ -663,6 +664,9 @@ object ExerciseDatabase {
             difficulty = Difficulty.ADVANCED,
             videoResource = "male_bodyweight_push_up_side"
         ),
+        */
+
+        GIF CONTINUE
         
         // Esercizi con attrezzi per il core
         Exercise(
