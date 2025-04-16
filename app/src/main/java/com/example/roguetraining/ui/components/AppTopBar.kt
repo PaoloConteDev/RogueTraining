@@ -24,10 +24,10 @@ fun AppTopBar(
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: "welcome"
-    val showBackButton = currentRoute != "welcome" && currentRoute != "finish"
-    val showSkipButton = currentRoute != "welcome" && currentRoute != "workout" && currentRoute != "finish"
+    val showBackButton = currentRoute != "welcome" && currentRoute != "finish" && currentRoute != "summary"
+    val showSkipButton = currentRoute != "welcome" && currentRoute != "workout" && currentRoute != "finish" && currentRoute != "summary"
 
-    val isInWorkoutFlow = currentRoute == "workout" || currentRoute == "recap" || currentRoute == "finish"
+    val isInWorkoutFlow = currentRoute == "workout" || currentRoute == "recap" || currentRoute == "finish" || currentRoute == "summary"
 
     if (!isInWorkoutFlow) {
         Column {

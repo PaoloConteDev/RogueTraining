@@ -23,7 +23,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Posiziona le mani a forma di diamante sotto il petto. Esegui i push-up mantenendo i gomiti vicini al corpo.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_diamond_push_ups-side"
+            videoResource = "male_bodyweight_diamond_push_ups_side"
         ),
         Exercise(
             name = "Incline Push-ups",
@@ -701,7 +701,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fianco a un cavo alla media altezza, afferra la maniglia con entrambe le mani. Premi la maniglia in avanti mantenendo il busto fermo, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "X"
+            videoResource = "male_cables_cable_pallof_press_front"
         ),
         Exercise(
             name = "Cable Rotation",

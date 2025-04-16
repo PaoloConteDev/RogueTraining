@@ -3,8 +3,9 @@ package com.example.roguetraining.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -68,11 +69,13 @@ fun MuscleGroupsScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Lista scrollabile con checkbox personalizzate
-            LazyColumn(
+            // Sostituito LazyColumn con LazyVerticalGrid per mostrare 2 elementi per riga
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2), // 2 colonne per riga
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f), // La lista occupa tutto lo spazio disponibile sopra il bottone
+                    .weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
@@ -98,17 +101,11 @@ fun MuscleGroupsScreen(
                             contentColor = Color.White
                         )
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                text = muscleGroups[group] ?: group,
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
-                        }
+                        Text(
+                            text = muscleGroups[group] ?: group,
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
                 }
             }
