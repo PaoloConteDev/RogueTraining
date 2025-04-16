@@ -1,7 +1,9 @@
 package com.example.roguetraining
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,13 +13,18 @@ import com.example.roguetraining.models.TrainingEnvironment
 import com.example.roguetraining.models.Difficulty
 import com.example.roguetraining.models.Exercise
 import com.example.roguetraining.models.WorkoutSet
+import com.example.roguetraining.data.UserInfo
+import com.example.roguetraining.data.UserPreferences
+import kotlinx.coroutines.launch
 
 // Extension function to convert duration to minutes
 private fun Int.toMinutes(): Int {
     return this * 60 // Assuming duration is in hours, convert to minutes
 }
 
-class WorkoutViewModel : ViewModel() {
+class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
+    private val userPreferences = UserPreferences(application)
+
     private val _sex = MutableStateFlow("")
     val sex: StateFlow<String> = _sex.asStateFlow()
 
@@ -57,20 +64,40 @@ class WorkoutViewModel : ViewModel() {
     private val _currentWorkout = MutableStateFlow<List<WorkoutSet>>(emptyList())
     val currentWorkout: StateFlow<List<WorkoutSet>> = _currentWorkout.asStateFlow()
 
-    fun setSex(sex: String) {
-        _sex.value = sex
+    init {
+        // Load saved user data
+        viewModelScope.launch {
+            try {
+                userPreferences.userInfo.collect { userInfo ->
+                    _sex.value = userInfo.sex
+                    _weight.value = userInfo.weight
+                    _height.value = userInfo.height
+                    _age.value = userInfo.age
+                }
+            } catch (e: Exception) {
+                Log.e("WorkoutViewModel", "Error loading user data: ${e.message}")
+            }
+        }
     }
 
-    fun setWeight(weight: Int) {
-        _weight.value = weight
+    fun setSex(value: String) {
+        _sex.value = value
+        saveUserInfo()
     }
 
-    fun setHeight(height: Int) {
-        _height.value = height
+    fun setWeight(value: Int) {
+        _weight.value = value
+        saveUserInfo()
     }
 
-    fun setAge(age: Int) {
-        _age.value = age
+    fun setHeight(value: Int) {
+        _height.value = value
+        saveUserInfo()
+    }
+
+    fun setAge(value: Int) {
+        _age.value = value
+        saveUserInfo()
     }
 
     fun setTrainingType(type: String) {
@@ -235,5 +262,22 @@ class WorkoutViewModel : ViewModel() {
 
     fun isWorkoutComplete(): Boolean {
         return _currentWorkout.value.all { it.isWorkoutComplete() }
+    }
+
+    private fun saveUserInfo() {
+        viewModelScope.launch {
+            try {
+                userPreferences.saveUserInfo(
+                    UserInfo(
+                        sex = _sex.value,
+                        weight = _weight.value,
+                        height = _height.value,
+                        age = _age.value
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e("WorkoutViewModel", "Error saving user data: ${e.message}")
+            }
+        }
     }
 }

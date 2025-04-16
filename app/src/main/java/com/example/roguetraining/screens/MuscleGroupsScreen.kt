@@ -15,6 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun MuscleGroupsScreen(
@@ -101,11 +104,28 @@ fun MuscleGroupsScreen(
                             contentColor = Color.White
                         )
                     ) {
-                        Text(
-                            text = muscleGroups[group] ?: group,
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                            modifier = Modifier.padding(horizontal = 4.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = muscleGroups[group] ?: group,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                modifier = Modifier.weight(1f)
+                            )
+
+                            Image(
+                                painter = painterResource(id = android.R.drawable.ic_menu_gallery),
+                                contentDescription = "Muscle group image",
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .padding(bottom = 4.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                        }
                     }
                 }
             }

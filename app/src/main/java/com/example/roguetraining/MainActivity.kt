@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import com.example.roguetraining.ui.theme.RogueTrainingTheme
 import com.example.roguetraining.screens.*
@@ -24,6 +24,8 @@ import com.example.roguetraining.models.TrainingEnvironment
 import com.example.roguetraining.screens.SummaryScreen
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: WorkoutViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +34,6 @@ class MainActivity : ComponentActivity() {
                 setSystemUiStyle()
 
                 val navController = rememberNavController()
-                val viewModel: WorkoutViewModel = viewModel()
                 val currentBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = currentBackStackEntry?.destination?.route ?: "welcome"
                 val environment by viewModel.environment.collectAsStateWithLifecycle()
@@ -153,7 +154,8 @@ class MainActivity : ComponentActivity() {
                                     },
                                     onBack = {
                                         navController.navigateUp()
-                                    }
+                                    },
+                                    viewModel = viewModel
                                 )
                             }
                             composable(

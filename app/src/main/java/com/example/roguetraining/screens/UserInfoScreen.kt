@@ -23,20 +23,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.roguetraining.WorkoutViewModel
 
 @Composable
 fun UserInfoScreen(
     onNext: (String, Float, Float, Int) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: WorkoutViewModel
 ) {
-    var sex by remember { mutableStateOf<String?>(null) }
-    var weight by remember { mutableStateOf("") }
-    var height by remember { mutableStateOf("") }
-    var age by remember { mutableStateOf("") }
+    val sex by viewModel.sex.collectAsStateWithLifecycle()
+    val weight by viewModel.weight.collectAsStateWithLifecycle()
+    val height by viewModel.height.collectAsStateWithLifecycle()
+    val age by viewModel.age.collectAsStateWithLifecycle()
+    
+    var sexState by remember { mutableStateOf(sex) }
+    var weightState by remember { mutableStateOf(if (weight > 0) weight.toString() else "") }
+    var heightState by remember { mutableStateOf(if (height > 0) height.toString() else "") }
+    var ageState by remember { mutableStateOf(if (age > 0) age.toString() else "") }
     var errorMessage by remember { mutableStateOf("") }
     
     val focusManager = LocalFocusManager.current
     val (ageFocus, weightFocus, heightFocus) = remember { FocusRequester.createRefs() }
+
+    // Update local state when ViewModel values change
+    LaunchedEffect(sex, weight, height, age) {
+        sexState = sex
+        weightState = if (weight > 0) weight.toString() else ""
+        heightState = if (height > 0) height.toString() else ""
+        ageState = if (age > 0) age.toString() else ""
+    }
 
     Box(
         modifier = Modifier
@@ -68,13 +84,19 @@ fun UserInfoScreen(
             ) {
                 SexButton(
                     text = "Male",
-                    isSelected = sex == "Male",
-                    onClick = { sex = "Male" }
+                    isSelected = sexState == "Male",
+                    onClick = { 
+                        sexState = "Male"
+                        viewModel.setSex("Male")
+                    }
                 )
                 SexButton(
                     text = "Female",
-                    isSelected = sex == "Female",
-                    onClick = { sex = "Female" }
+                    isSelected = sexState == "Female",
+                    onClick = { 
+                        sexState = "Female"
+                        viewModel.setSex("Female")
+                    }
                 )
             }
 
@@ -82,8 +104,11 @@ fun UserInfoScreen(
 
             // Age Input
             OutlinedTextField(
-                value = age,
-                onValueChange = { age = it },
+                value = ageState,
+                onValueChange = { 
+                    ageState = it
+                    it.toIntOrNull()?.let { age -> viewModel.setAge(age) }
+                },
                 label = { Text("Age", color = Color.White) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -99,7 +124,7 @@ fun UserInfoScreen(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
                     focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.White,
                     focusedLabelColor = Color.White,
                     unfocusedLabelColor = Color.White
                 )
@@ -109,8 +134,11 @@ fun UserInfoScreen(
 
             // Weight Input
             OutlinedTextField(
-                value = weight,
-                onValueChange = { weight = it },
+                value = weightState,
+                onValueChange = { 
+                    weightState = it
+                    it.toIntOrNull()?.let { weight -> viewModel.setWeight(weight) }
+                },
                 label = { Text("Weight (kg)", color = Color.White) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -126,7 +154,7 @@ fun UserInfoScreen(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
                     focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.White,
                     focusedLabelColor = Color.White,
                     unfocusedLabelColor = Color.White
                 )
@@ -136,8 +164,11 @@ fun UserInfoScreen(
 
             // Height Input
             OutlinedTextField(
-                value = height,
-                onValueChange = { height = it },
+                value = heightState,
+                onValueChange = { 
+                    heightState = it
+                    it.toIntOrNull()?.let { height -> viewModel.setHeight(height) }
+                },
                 label = { Text("Height (cm)", color = Color.White) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -153,62 +184,80 @@ fun UserInfoScreen(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
                     focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.White,
                     focusedLabelColor = Color.White,
                     unfocusedLabelColor = Color.White
                 )
             )
 
             if (errorMessage.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = errorMessage,
                     color = Color.Red,
-                    modifier = Modifier.padding(top = 8.dp)
+                    fontSize = 14.sp
                 )
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Button(
-                onClick = {
-                    try {
-                        val weightValue = weight.toInt()
-                        val heightValue = height.toInt()
-                        val ageValue = age.toInt()
-                        
-                        if (sex == null) {
+            // Navigation Buttons
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = onBack,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF1E4976)
+                    ),
+                    modifier = Modifier.width(120.dp)
+                ) {
+                    Text("Back")
+                }
+
+                Button(
+                    onClick = {
+                        if (sexState == null) {
                             errorMessage = "Please select your sex"
                             return@Button
                         }
-                        if (ageValue <= 0) {
-                            errorMessage = "Please enter a valid age"
+                        val ageValue = ageState.toIntOrNull()
+                        val weightValue = weightState.toFloatOrNull()
+                        val heightValue = heightState.toFloatOrNull()
+
+                        if (ageValue == null || weightValue == null || heightValue == null) {
+                            errorMessage = "Please fill in all fields with valid numbers"
                             return@Button
                         }
-                        if (weightValue <= 0) {
-                            errorMessage = "Please enter a valid weight"
+
+                        if (ageValue < 13 || ageValue > 100) {
+                            errorMessage = "Age must be between 13 and 100"
                             return@Button
                         }
-                        if (heightValue <= 0) {
-                            errorMessage = "Please enter a valid height"
+
+                        if (weightValue < 30 || weightValue > 200) {
+                            errorMessage = "Weight must be between 30 and 200 kg"
                             return@Button
                         }
-                        
+
+                        if (heightValue < 100 || heightValue > 250) {
+                            errorMessage = "Height must be between 100 and 250 cm"
+                            return@Button
+                        }
+
                         errorMessage = ""
-                        onNext(sex!!, weightValue.toFloat(), heightValue.toFloat(), ageValue)
-                    } catch (e: NumberFormatException) {
-                        errorMessage = "Please enter valid numbers"
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Text(
-                    "Next",
-                    color = Color(0xFF0A1929),
-                    style = MaterialTheme.typography.titleMedium
-                )
+                        onNext(sexState!!, weightValue, heightValue, ageValue)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF1E4976)
+                    ),
+                    modifier = Modifier.width(120.dp)
+                ) {
+                    Text("Next")
+                }
             }
         }
     }
@@ -242,5 +291,11 @@ fun SexButton(
 @Preview
 @Composable
 fun PreviewUserInfoScreen() {
-    UserInfoScreen({ _, _, _, _ -> }, {})
+    // Create a mock Application for preview
+    val mockApplication = android.app.Application()
+    UserInfoScreen(
+        onNext = { _, _, _, _ -> },
+        onBack = {},
+        viewModel = WorkoutViewModel(mockApplication)
+    )
 }

@@ -94,9 +94,10 @@ fun WorkoutScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-            colors = CardDefaults.cardColors(containerColor = AppColors.white)
+            //shape = RoundedCornerShape(16.dp),
+            //elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            //colors = CardDefaults.cardColors(containerColor = AppColors.white)
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -113,7 +114,7 @@ fun WorkoutScreen(
                         text = "Current Workout",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = AppColors.darkText
+                        color = AppColors.white
                     )
                 }
 
@@ -209,7 +210,7 @@ fun WorkoutScreen(
                             text = "${currentSetIndex + 1}/${currentExercise.sets}",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            color = AppColors.darkText
+                            color = AppColors.white
                         )
                     }
 
@@ -221,13 +222,14 @@ fun WorkoutScreen(
                         Text(
                             text = "Recommended Weight",
                             style = MaterialTheme.typography.bodyMedium,
+                            color = AppColors.gray
                         )
                         Text(
                             text = currentExercise.recommendedWeight ?: "N/A",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
 
-                            color = if (isCurrentExerciseComplete) AppColors.gray else AppColors.darkText
+                            color = AppColors.white
                         )
                     }
                 }
@@ -440,8 +442,8 @@ fun SetItem(
             modifier = Modifier.padding(start = 16.dp),
             color = when {
                 isCompleted -> AppColors.gray  // Colore per set completato
-                isActive -> AppColors.darkText  // Colore per set attivo
-                else -> AppColors.darkText         // Colore per set non ancora attivo
+                isActive -> AppColors.white  // Colore per set attivo
+                else -> AppColors.white         // Colore per set non ancora attivo
             }
         )
 
@@ -453,8 +455,8 @@ fun SetItem(
 
             color = when {
                 isCompleted -> AppColors.gray       // Set completato: colore grigio
-                isActive -> AppColors.darkText      // Set attivo: colore scuro standard
-                else -> AppColors.darkText        // Set non attivo: leggermente meno intenso
+                isActive -> AppColors.white      // Set attivo: colore scuro standard
+                else -> AppColors.white        // Set non attivo: leggermente meno intenso
             }
         )
     }
