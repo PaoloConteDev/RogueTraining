@@ -331,7 +331,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con i piedi alla larghezza delle spalle e un manubrio in ogni mano. Abbassa il corpo piegando le ginocchia e spingendo i glutei indietro, poi risali.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "X"
         ),
         */
         Exercise(
@@ -652,7 +652,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Pull-up Bar"),
             description = "Appeso alla barra con le braccia tese, solleva le gambe tese fino a 90 gradi, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "X"
         ),
 
         Exercise(
@@ -662,12 +662,10 @@ object ExerciseDatabase {
             requiredTools = listOf("Bench"),
             description = "Sdraiati su una panca con le mani che afferrano la panca dietro la testa. Solleva il corpo mantenendo le gambe tese, poi controlla il ritorno.",
             difficulty = Difficulty.ADVANCED,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "X"
         ),
         */
 
-        GIF CONTINUE
-        
         // Esercizi con attrezzi per il core
         Exercise(
             name = "Cable Woodchop",
@@ -676,7 +674,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fianco a un cavo alto, afferra la maniglia con entrambe le mani. Ruota il busto tirando la maniglia verso il ginocchio opposto, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_cable_woodchopper_front"
         ),
         Exercise(
             name = "Cable Crunch",
@@ -685,7 +683,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In ginocchio di fronte a un cavo alto, afferra la corda con le mani dietro la testa. Crunch verso il basso contraendo gli addominali, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_cables_cable_kneeling_crunch_side"
         ),
         Exercise(
             name = "Ab Wheel Rollout",
@@ -694,7 +692,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Ab Wheel"),
             description = "In ginocchio con le mani sulla ruota, rotola la ruota in avanti estendendo le braccia, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_roll_outs_side"
         ),
         Exercise(
             name = "Pallof Press",
@@ -703,7 +701,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fianco a un cavo alla media altezza, afferra la maniglia con entrambe le mani. Premi la maniglia in avanti mantenendo il busto fermo, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "X"
         ),
         Exercise(
             name = "Cable Rotation",
@@ -712,7 +710,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fianco a un cavo alla media altezza, afferra la maniglia con entrambe le mani. Ruota il busto tirando la maniglia attraverso il corpo, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_cables_cable_paloff_press_rotation_front"
         ),
         Exercise(
             name = "Weighted Plank",
@@ -721,16 +719,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Weight Plates"),
             description = "In posizione di plank con gli avambracci a terra, posiziona un peso sulla schiena. Mantieni la posizione contraendo gli addominali.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
-        ),
-        Exercise(
-            name = "Weighted Sit-up",
-            primaryMuscleGroup = "Core",
-            secondaryMuscleGroups = listOf("Hip Flexors"),
-            requiredTools = listOf("Dumbbells", "Weight Plates"),
-            description = "Sdraiati sulla schiena con le ginocchia piegate e un peso sul petto. Solleva il busto verso le ginocchia, poi controlla il ritorno.",
-            difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_plate_weighted_forearm_plank_side"
         ),
         Exercise(
             name = "Weighted Russian Twist",
@@ -739,7 +728,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells", "Weight Plates"),
             description = "Siediti con le ginocchia piegate e i piedi sollevati, tieni un peso davanti al petto. Ruota il busto da un lato all'altro toccando il peso al pavimento.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_russian_twist_front"
         ),
         
         // REGIONE: CARDIO
@@ -751,7 +740,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Kettlebell"),
             description = "In piedi con i piedi alla larghezza delle spalle, afferra il kettlebell con entrambe le mani. Oscilla il kettlebell tra le gambe e poi verso l'alto.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_kettlebells_kettlebell_swing_side"
         ),
     )
 }
