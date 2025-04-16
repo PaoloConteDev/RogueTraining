@@ -36,7 +36,7 @@ fun UserInfoScreen(
     var errorMessage by remember { mutableStateOf("") }
     
     val focusManager = LocalFocusManager.current
-    val (weightFocus, heightFocus, ageFocus) = remember { FocusRequester.createRefs() }
+    val (ageFocus, weightFocus, heightFocus) = remember { FocusRequester.createRefs() }
 
     Box(
         modifier = Modifier
@@ -80,6 +80,33 @@ fun UserInfoScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Age Input
+            OutlinedTextField(
+                value = age,
+                onValueChange = { age = it },
+                label = { Text("Age", color = Color.White) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { weightFocus.requestFocus() }
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(ageFocus),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.Gray,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.White
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Weight Input
             OutlinedTextField(
                 value = weight,
@@ -114,33 +141,6 @@ fun UserInfoScreen(
                 label = { Text("Height (cm)", color = Color.White) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { ageFocus.requestFocus() }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(heightFocus),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.Gray,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Age Input
-            OutlinedTextField(
-                value = age,
-                onValueChange = { age = it },
-                label = { Text("Age", color = Color.White) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -148,7 +148,7 @@ fun UserInfoScreen(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .focusRequester(ageFocus),
+                    .focusRequester(heightFocus),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
@@ -180,16 +180,16 @@ fun UserInfoScreen(
                             errorMessage = "Please select your sex"
                             return@Button
                         }
+                        if (ageValue <= 0) {
+                            errorMessage = "Please enter a valid age"
+                            return@Button
+                        }
                         if (weightValue <= 0) {
                             errorMessage = "Please enter a valid weight"
                             return@Button
                         }
                         if (heightValue <= 0) {
                             errorMessage = "Please enter a valid height"
-                            return@Button
-                        }
-                        if (ageValue <= 0) {
-                            errorMessage = "Please enter a valid age"
                             return@Button
                         }
                         

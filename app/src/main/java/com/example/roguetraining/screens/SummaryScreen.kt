@@ -11,7 +11,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.roguetraining.WorkoutViewModel
-import java.util.*
 
 @Composable
 fun SummaryScreen(
@@ -39,13 +38,13 @@ fun SummaryScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Workout Completed!",
+            text = "Allenamento Completato!",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center
         )
 
         Text(
-            text = "Duration: $formattedTime",
+            text = "Durata: $formattedTime",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center
         )
@@ -85,7 +84,7 @@ fun SummaryScreen(
                 .fillMaxWidth()
                 .height(56.dp)
         ) {
-            Text("Back to Home")
+            Text("Torna alla Home")
         }
     }
 } 

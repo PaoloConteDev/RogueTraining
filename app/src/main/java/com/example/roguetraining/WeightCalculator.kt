@@ -30,54 +30,74 @@ class WeightCalculator {
             "Core" to 0.4
         )
 
-        // Coefficienti specifici per esercizio
+        // Coefficienti specifici per esercizio (aggiornati per corrispondere ai nomi effettivi nel database)
         private val EXERCISE_COEFFICIENTS = mapOf(
             // Esercizi per il petto
-            "Bench Press" to 1.2,
-            "Incline Bench Press" to 1.1,
-            "Decline Bench Press" to 1.15,
-            "Dumbbell Press" to 0.9,
-            "Push-ups" to 0.4,
-            "Diamond Push-ups" to 0.45,
-            "Wide Push-ups" to 0.35,
+            "Barbell Bench Press" to 1.2,
+            "Incline Barbell Bench Press" to 1.1,
+            "Dumbbell Bench Press" to 0.9,
+            "Incline Dumbbell Press" to 0.85,
+            "Dumbbell Flyes" to 0.6,
+            "Push-Up" to 0.4,
+            "Decline Push-Up" to 0.45,
+            "Incline Push-Up" to 0.35,
+            "Diamond Push-Up" to 0.45,
+            "Machine Chest Press" to 1.0,
+            "Smith Machine Bench Press" to 1.1,
+            "Cable Flyes" to 0.55,
             
             // Esercizi per la schiena
-            "Pull-ups" to 0.5,
+            "Pull-Up" to 0.5,
+            "Chin-Up" to 0.55,
             "Lat Pulldown" to 0.8,
             "Barbell Row" to 1.0,
             "Dumbbell Row" to 0.7,
             "Face Pull" to 0.4,
+            "Seated Cable Row" to 0.9,
             
             // Esercizi per le gambe
-            "Squat" to 1.3,
+            "Barbell Squat" to 1.3,
             "Deadlift" to 1.4,
-            "Leg Press" to 1.2,
-            "Lunges" to 0.6,
+            "Romanian Deadlift" to 1.2,
+            "Leg Press" to 2.0,
+            "Forward Lunge" to 0.6,
+            "Bulgarian Split Squat" to 0.7,
             "Leg Extension" to 0.7,
-            "Leg Curl" to 0.6,
+            "Hamstring Curl" to 0.6,
+            "Goblet Squat" to 0.8,
+            "Hip Thrust" to 1.1,
             
             // Esercizi per le spalle
-            "Overhead Press" to 0.9,
+            "Barbell Shoulder Press" to 0.9,
+            "Dumbbell Shoulder Press" to 0.8,
             "Lateral Raise" to 0.4,
-            "Front Raise" to 0.4,
-            "Face Pull" to 0.3,
+            "Front Raises" to 0.4,
+            "Arnold Press" to 0.75,
+            "Upright Row" to 0.6,
             
             // Esercizi per i bicipiti
             "Barbell Curl" to 0.5,
             "Dumbbell Curl" to 0.4,
             "Hammer Curl" to 0.45,
             "Preacher Curl" to 0.5,
+            "Wrist Curl" to 0.3,
             
             // Esercizi per i tricipiti
             "Tricep Pushdown" to 0.4,
             "Skull Crushers" to 0.45,
-            "Diamond Push-ups" to 0.35,
+            "Overhead Tricep Extension" to 0.4,
+            "Bench Dips" to 0.3,
+            "Parallel Bar Dips" to 0.55,
             
             // Esercizi per il core
             "Plank" to 0.2,
             "Russian Twists" to 0.3,
+            "Weighted Plank" to 0.35,
             "Leg Raises" to 0.25,
-            "Crunches" to 0.2
+            "Bicycle Crunch" to 0.2,
+            "Cable Crunch" to 0.5,
+            "Pallof Press" to 0.4,
+            "Cable Rotation" to 0.4
         )
 
         fun calculateWeight(
@@ -157,13 +177,39 @@ class WeightCalculator {
                 if (baseWeight <= 0) {
                     return Pair(0, 0)
                 }
-                val minWeight = (baseWeight * 0.8).toInt().coerceAtLeast(1)
-                val maxWeight = (baseWeight * 1.2).toInt().coerceAtLeast(minWeight + 1)
+                
+                // Calcola il range di peso
+                var minWeight = (baseWeight * 0.9).toInt()
+                var maxWeight = (baseWeight * 1.1).toInt()
+                
+                // Arrotonda i pesi a valori più "solidi"
+                minWeight = arrotondaPeso(minWeight)
+                maxWeight = arrotondaPeso(maxWeight)
+                
+                // Assicurati che ci sia una differenza minima tra min e max
+                if (maxWeight <= minWeight) {
+                    maxWeight = minWeight + 5
+                }
+                
                 return Pair(minWeight, maxWeight)
             } catch (e: Exception) {
                 Log.e("WeightCalculator", "Error calculating weight range: ${e.message}")
                 e.printStackTrace()
                 return Pair(0, 0)
+            }
+        }
+        
+        // Funzione per arrotondare i pesi a valori più "solidi"
+        private fun arrotondaPeso(peso: Int): Int {
+            // Arrotonda a multipli di 5 per pesi > 10kg
+            return if (peso > 10) {
+                (peso / 5) * 5 + if (peso % 5 >= 3) 5 else 0
+            } else if (peso > 5) {
+                // Arrotonda a multipli di 2 per pesi tra 5-10kg
+                (peso / 2) * 2 + if (peso % 2 >= 1) 2 else 0
+            } else {
+                // Pesi molto leggeri rimangono invariati
+                peso
             }
         }
     }

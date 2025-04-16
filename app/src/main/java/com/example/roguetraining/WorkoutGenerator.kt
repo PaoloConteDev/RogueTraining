@@ -1,63 +1,89 @@
 package com.example.roguetraining
 
-import kotlin.random.Random
 import com.example.roguetraining.database.ExerciseDatabase
 import com.example.roguetraining.models.Difficulty
 import com.example.roguetraining.models.Exercise
+import com.example.roguetraining.models.TrainingIntensity
+import kotlin.math.roundToInt
+import kotlin.random.Random
 
-class WorkoutGenerator {
+class ImprovedWorkoutGenerator {
     data class WorkoutPreferences(
         val difficulty: Difficulty,
         val targetMuscleGroups: List<String>,
         val availableTools: List<String>,
-        val workoutDuration: Int // in minutes
+        val workoutDuration: Int, // in minutes
+        val sex: String,
+        val bodyWeight: Float,
+        val height: Float,
+        val age: Int,
+        val intensity: TrainingIntensity
     )
 
-    fun generateWorkout(preferences: WorkoutPreferences): List<Exercise> {
-        // Se non ci sono strumenti selezionati, filtra solo gli esercizi a corpo libero
-        val filteredExercises = if (preferences.availableTools.isEmpty()) {
-            ExerciseDatabase.allExercises.filter { exercise ->
-                exercise.difficulty == preferences.difficulty &&
-                exercise.primaryMuscleGroup in preferences.targetMuscleGroups &&
-                exercise.requiredTools.isEmpty()
-            }
-        } else {
-            ExerciseDatabase.allExercises.filter { exercise ->
-                exercise.difficulty == preferences.difficulty &&
-                exercise.primaryMuscleGroup in preferences.targetMuscleGroups &&
-                (exercise.requiredTools.isEmpty() || exercise.requiredTools.all { it in preferences.availableTools })
-            }
+    data class WorkoutSet(
+        val exercise: Exercise,
+        val sets: Int,
+        val reps: Int,
+        val suggestedWeightKg: IntRange
+    )
+
+    fun generateWorkout(preferences: WorkoutPreferences): List<WorkoutSet> {
+        val filteredExercises = ExerciseDatabase.allExercises.filter { exercise ->
+            val difficultyMatch = exercise.difficulty == preferences.difficulty || isNearDifficulty(preferences.difficulty, exercise.difficulty)
+            val toolMatch = exercise.requiredTools.isEmpty() || exercise.requiredTools.all { it in preferences.availableTools }
+            val muscleMatch = preferences.targetMuscleGroups.any { it in listOf(exercise.primaryMuscleGroup) + exercise.secondaryMuscleGroups }
+            difficultyMatch && toolMatch && muscleMatch
         }
 
-        if (filteredExercises.isEmpty()) {
-            return emptyList()
-        }
+        if (filteredExercises.isEmpty()) return emptyList()
 
-        // Calculate number of exercises based on workout duration
-        // Assuming 3 minutes per exercise (including rest)
-        val numberOfExercises = (preferences.workoutDuration / 3).coerceAtMost(filteredExercises.size)
-        
-        // Ensure we have at least 3 exercises
-        val finalNumberOfExercises = numberOfExercises.coerceAtLeast(3)
+        val numberOfExercises = (preferences.workoutDuration / 3).coerceAtMost(filteredExercises.size).coerceAtLeast(3)
 
-        // Randomly select exercises
-        return filteredExercises.shuffled().take(finalNumberOfExercises)
-    }
-
-    companion object {
-        // Helper function to get a random exercise for a specific muscle group
-        fun getRandomExerciseForMuscleGroup(
-            muscleGroup: String,
-            difficulty: Difficulty,
-            availableTools: List<String>
-        ): Exercise? {
-            return ExerciseDatabase.allExercises
-                .filter { 
-                    it.primaryMuscleGroup == muscleGroup && 
-                    it.difficulty == difficulty &&
-                    (it.requiredTools.isEmpty() || it.requiredTools.all { tool -> tool in availableTools })
-                }
-                .randomOrNull()
+        return filteredExercises.shuffled().take(numberOfExercises).map { exercise ->
+            val (sets, reps) = getRepsAndSets(preferences.difficulty, preferences.intensity)
+            val weightRange = WeightCalculator.getWeightRange(
+                preferences.sex,
+                preferences.bodyWeight,
+                preferences.height,
+                preferences.age,
+                preferences.intensity,
+                exercise.primaryMuscleGroup,
+                exercise.name
+            )
+            WorkoutSet(
+                exercise = exercise,
+                sets = sets,
+                reps = reps,
+                suggestedWeightKg = weightRange.first..weightRange.second
+            )
         }
     }
-} 
+
+    private fun isNearDifficulty(target: Difficulty, actual: Difficulty): Boolean {
+        return when (target) {
+            Difficulty.BEGINNER -> actual == Difficulty.INTERMEDIATE
+            Difficulty.INTERMEDIATE -> actual == Difficulty.BEGINNER || actual == Difficulty.ADVANCED
+            Difficulty.ADVANCED -> actual == Difficulty.INTERMEDIATE
+        }
+    }
+
+    private fun getRepsAndSets(difficulty: Difficulty, intensity: TrainingIntensity): Pair<Int, Int> {
+        return when (difficulty) {
+            Difficulty.BEGINNER -> when (intensity) {
+                TrainingIntensity.LOW -> 3 to 10
+                TrainingIntensity.MEDIUM -> 3 to 12
+                TrainingIntensity.HIGH -> 4 to 12
+            }
+            Difficulty.INTERMEDIATE -> when (intensity) {
+                TrainingIntensity.LOW -> 3 to 10
+                TrainingIntensity.MEDIUM -> 4 to 10
+                TrainingIntensity.HIGH -> 4 to 12
+            }
+            Difficulty.ADVANCED -> when (intensity) {
+                TrainingIntensity.LOW -> 4 to 8
+                TrainingIntensity.MEDIUM -> 4 to 10
+                TrainingIntensity.HIGH -> 5 to 10
+            }
+        }
+    }
+}
