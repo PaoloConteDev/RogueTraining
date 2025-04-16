@@ -143,8 +143,6 @@ object ExerciseDatabase {
             videoResource = "male_smithmachine_bench_press_side"
         ),
 
-        //GIF CONTINUE
-
         // REGIONE: SCHIENA
         // Esercizi a corpo libero per la schiena
         Exercise(
@@ -154,7 +152,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Sdraiati a pancia in giù con le braccia tese in avanti. Solleva contemporaneamente braccia e gambe dal pavimento.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_supermans_side"
         ),
         Exercise(
             name = "Bird Dog",
@@ -163,16 +161,16 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "In posizione quadrupedica, estendi contemporaneamente un braccio e la gamba opposta. Mantieni la posizione per 2 secondi.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_bird_dog_side"
         ),
         Exercise(
             name = "Back Extension",
             primaryMuscleGroup = "Back",
             secondaryMuscleGroups = listOf("Glutes", "Lower back"),
             requiredTools = emptyList(),
-            description = "Sdraiati a pancia in giù con le mani dietro la testa. Solleva il busto dal pavimento contraendo i muscoli della schiena.",
+            description = "Sdraiati a pancia in giù. Solleva il busto dal pavimento contraendo i muscoli della schiena.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_recovery_lower_back_extensions_2_front"
         ),
         Exercise(
             name = "Pull-ups",
@@ -181,7 +179,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Pull-up Bar"),
             description = "Appeso alla barra con le mani alla larghezza delle spalle, tira il corpo verso l'alto fino a che il mento supera la barra, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_pullup_side"
         ),
         Exercise(
             name = "Chin-ups",
@@ -190,9 +188,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Pull-up Bar"),
             description = "Appeso alla barra con i palmi rivolti verso di te, tira il corpo verso l'alto fino a che il mento supera la barra, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_chinup_side"
         ),
-        
+
         // Esercizi con manubri per la schiena
         Exercise(
             name = "Dumbbell Row",
@@ -201,7 +199,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "Appoggia un ginocchio e una mano su una panca, afferra un manubrio con l'altra mano. Tira il manubrio verso l'addome, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_kneeling_single_arm_row_side"
         ),
         Exercise(
             name = "Reverse Flyes",
@@ -210,9 +208,12 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi piegato in avanti con un manubrio in ogni mano, solleva le braccia ai lati fino all'altezza delle spalle, poi abbassa lentamente.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_rear_delt_fly_side"
         ),
-        
+
+
+
+
         // Esercizi con bilanciere per la schiena
         Exercise(
             name = "Barbell Row",
@@ -221,7 +222,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "In piedi con i piedi alla larghezza delle spalle, piegati in avanti e afferra il bilanciere. Tira il bilanciere verso l'addome, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_pronated_row_side"
         ),
         Exercise(
             name = "Good Morning",
@@ -230,9 +231,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "In piedi con il bilanciere sulle spalle, piegati in avanti mantenendo la schiena dritta, poi torna alla posizione iniziale.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_low_bar_good_morning_side"
         ),
-        
+
         // Esercizi con macchine per la schiena
         Exercise(
             name = "Lat Pulldown",
@@ -241,7 +242,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "Seduto alla macchina, afferra la barra con le mani alla larghezza delle spalle. Tira la barra verso il petto, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_pulldown_front"
         ),
         Exercise(
             name = "Cable Row",
@@ -250,7 +251,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "Seduto alla macchina, afferra la barra o le maniglie. Tira verso l'addome, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_seated_cable_row_front"
         ),
         Exercise(
             name = "Face Pull",
@@ -259,9 +260,11 @@ object ExerciseDatabase {
             requiredTools = listOf("Cable Machine"),
             description = "In piedi di fronte a un cavo alto, afferra la corda o la barra. Tira verso il viso separando le estremità, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_machine_machine_face_pulls_side"
         ),
         
+        //GIF
+
         // REGIONE: GAMBE
         // Esercizi a corpo libero per le gambe
         Exercise(
