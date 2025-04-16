@@ -262,8 +262,8 @@ object ExerciseDatabase {
             difficulty = Difficulty.INTERMEDIATE,
             videoResource = "male_machine_machine_face_pulls_side"
         ),
-        
-        //GIF
+
+        //GIF CONTINUE
 
         // REGIONE: GAMBE
         // Esercizi a corpo libero per le gambe
@@ -274,7 +274,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "In piedi con i piedi alla larghezza delle spalle. Abbassa il corpo piegando le ginocchia e spingendo i glutei indietro.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_jump_squats_front"
         ),
         Exercise(
             name = "Jump Squats",
@@ -283,16 +283,16 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Esegui uno squat e poi esplodi verso l'alto saltando. Atterra dolcemente e ripeti.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_bodyweight_alternating_jump_lunge_side"
         ),
         Exercise(
-            name = "Lunges",
+            name = "Forward Lunges",
             primaryMuscleGroup = "Quadriceps",
             secondaryMuscleGroups = listOf("Glutes", "Hamstrings"),
             requiredTools = emptyList(),
             description = "Fai un passo in avanti e abbassa il ginocchio posteriore verso il pavimento. Spingi con la gamba anteriore per tornare alla posizione iniziale.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_forward_lunges_side"
         ),
         Exercise(
             name = "Jumping Lunges",
@@ -301,7 +301,7 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Esegui un affondo e poi salta cambiando la posizione delle gambe in aria. Atterra dolcemente e ripeti.",
             difficulty = Difficulty.ADVANCED,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_jump_squats_front"
         ),
         Exercise(
             name = "Wall Sit",
@@ -310,9 +310,9 @@ object ExerciseDatabase {
             requiredTools = emptyList(),
             description = "Appoggia la schiena al muro e abbassa il corpo fino a formare un angolo di 90 gradi con le ginocchia. Mantieni la posizione.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_bodyweight_wall_sit_side"
         ),
-        
+
         // Esercizi con manubri per le gambe
         Exercise(
             name = "Dumbbell Lunges",
@@ -321,8 +321,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un manubrio in ogni mano, fai un passo in avanti e abbassa il ginocchio posteriore verso il pavimento. Spingi con la gamba anteriore per tornare alla posizione iniziale.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_forward_lunge_side"
         ),
+        /* NO GIF
         Exercise(
             name = "Dumbbell Squats",
             primaryMuscleGroup = "Quadriceps",
@@ -332,6 +333,7 @@ object ExerciseDatabase {
             difficulty = Difficulty.INTERMEDIATE,
             videoResource = "male_bodyweight_push_up_side"
         ),
+        */
         Exercise(
             name = "Goblet Squat",
             primaryMuscleGroup = "Quadriceps",
@@ -339,7 +341,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells", "Kettlebell"),
             description = "In piedi con i piedi alla larghezza delle spalle, tieni un manubrio o un kettlebell davanti al petto. Abbassa il corpo piegando le ginocchia e spingendo i glutei indietro, poi risali.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbell_goblet_squat_front"
         ),
         Exercise(
             name = "Calf Raises",
@@ -348,7 +350,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con i piedi alla larghezza delle spalle e un manubrio in ogni mano, solleva i talloni dal pavimento, poi abbassali lentamente.",
             difficulty = Difficulty.BEGINNER,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_calf_raise_side"
         ),
         Exercise(
             name = "Bulgarian Split Squat",
@@ -357,9 +359,9 @@ object ExerciseDatabase {
             requiredTools = listOf("Dumbbells"),
             description = "In piedi con un piede su una panca dietro di te e un manubrio in ogni mano. Abbassa il ginocchio posteriore verso il pavimento, poi risali.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_dumbbells_dumbbell_bulgarian_split_squat_side"
         ),
-        
+
         // Esercizi con bilanciere per le gambe
         Exercise(
             name = "Barbell Squat",
@@ -368,7 +370,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "Posiziona il bilanciere sulle spalle. Abbassa il corpo piegando le ginocchia e spingendo i glutei indietro, poi risali.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_squat_front"
         ),
         Exercise(
             name = "Romanian Deadlift",
@@ -377,7 +379,7 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "In piedi con i piedi alla larghezza delle spalle, afferra il bilanciere. Mantenendo la schiena dritta, piegati in avanti spingendo i glutei indietro, poi torna alla posizione iniziale.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_romanian_deadlift_side"
         ),
         Exercise(
             name = "Hip Thrust",
@@ -386,9 +388,11 @@ object ExerciseDatabase {
             requiredTools = listOf("Barbell", "Weight Plates"),
             description = "Sdraiati con la schiena su una panca e il bilanciere sulle anche. Spingi i glutei verso l'alto, poi controlla il ritorno.",
             difficulty = Difficulty.INTERMEDIATE,
-            videoResource = "male_bodyweight_push_up_side"
+            videoResource = "male_barbell_barbell_hip_thrust_front"
         ),
         
+        //GIF
+
         // Esercizi con macchine per le gambe
         Exercise(
             name = "Leg Press",
