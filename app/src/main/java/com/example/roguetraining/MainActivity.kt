@@ -224,8 +224,8 @@ class MainActivity : ComponentActivity() {
                                 exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
                             ) {
                                 EnvironmentSelectionScreen(
-                                    onEnvironmentSelected = { environment ->
-                                        viewModel.setEnvironment(TrainingEnvironmentDatabase.environments.find { it.name == environment } ?: TrainingEnvironmentDatabase.environments[2])
+                                    onNext = { environment ->
+                                        viewModel.setEnvironment(environment)
                                         navController.navigate("tools")
                                     },
                                     onBack = {

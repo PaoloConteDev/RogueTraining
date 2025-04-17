@@ -219,18 +219,19 @@ fun WorkoutScreen(
                     val isCurrentExerciseComplete = workoutSets.getOrNull(currentExerciseIndex)?.isWorkoutComplete() ?: false
 
                     Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = "Recommended Weight",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = AppColors.gray
-                        )
-                        Text(
-                            text = currentExercise.recommendedWeight ?: "N/A",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-
-                            color = AppColors.white
-                        )
+                        if (currentExercise.exercise.requiredTools.isNotEmpty()) {
+                            Text(
+                                text = "Recommended Weight",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = AppColors.gray
+                            )
+                            Text(
+                                text = currentExercise.recommendedWeight ?: "N/A",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = AppColors.white
+                            )
+                        }
                     }
                 }
 

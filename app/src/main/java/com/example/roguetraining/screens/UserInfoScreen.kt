@@ -46,6 +46,41 @@ fun UserInfoScreen(
     val focusManager = LocalFocusManager.current
     val (ageFocus, weightFocus, heightFocus) = remember { FocusRequester.createRefs() }
 
+    // Funzione per validare il form
+    fun isFormValid(): Boolean {
+        if (sexState == null) {
+            errorMessage = "Seleziona il tuo sesso"
+            return false
+        }
+        
+        val ageValue = ageState.toIntOrNull()
+        val weightValue = weightState.toFloatOrNull()
+        val heightValue = heightState.toFloatOrNull()
+
+        if (ageValue == null || weightValue == null || heightValue == null) {
+            errorMessage = "Inserisci valori validi in tutti i campi"
+            return false
+        }
+
+        if (ageValue < 13 || ageValue > 100) {
+            errorMessage = "L'età deve essere tra 13 e 100 anni"
+            return false
+        }
+
+        if (weightValue < 30 || weightValue > 200) {
+            errorMessage = "Il peso deve essere tra 30 e 200 kg"
+            return false
+        }
+
+        if (heightValue < 100 || heightValue > 250) {
+            errorMessage = "L'altezza deve essere tra 100 e 250 cm"
+            return false
+        }
+
+        errorMessage = ""
+        return true
+    }
+
     // Update local state when ViewModel values change
     LaunchedEffect(sex, weight, height, age) {
         sexState = sex
@@ -63,10 +98,10 @@ fun UserInfoScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             Text(
                 "Informazioni Utente",
@@ -77,186 +112,160 @@ fun UserInfoScreen(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 
-            // Sex Selection
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+            Text(
+                "Inserisci i tuoi dati per un allenamento personalizzato",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = Color.White.copy(alpha = 0.8f)
+                ),
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                SexButton(
-                    text = "Male",
-                    isSelected = sexState == "Male",
-                    onClick = { 
-                        sexState = "Male"
-                        viewModel.setSex("Male")
-                    }
-                )
-                SexButton(
-                    text = "Female",
-                    isSelected = sexState == "Female",
-                    onClick = { 
-                        sexState = "Female"
-                        viewModel.setSex("Female")
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Age Input
-            OutlinedTextField(
-                value = ageState,
-                onValueChange = { 
-                    ageState = it
-                    it.toIntOrNull()?.let { age -> viewModel.setAge(age) }
-                },
-                label = { Text("Age", color = Color.White) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { weightFocus.requestFocus() }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(ageFocus),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Weight Input
-            OutlinedTextField(
-                value = weightState,
-                onValueChange = { 
-                    weightState = it
-                    it.toIntOrNull()?.let { weight -> viewModel.setWeight(weight) }
-                },
-                label = { Text("Weight (kg)", color = Color.White) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { heightFocus.requestFocus() }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(weightFocus),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Height Input
-            OutlinedTextField(
-                value = heightState,
-                onValueChange = { 
-                    heightState = it
-                    it.toIntOrNull()?.let { height -> viewModel.setHeight(height) }
-                },
-                label = { Text("Height (cm)", color = Color.White) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = { focusManager.clearFocus() }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(heightFocus),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.White
-                )
-            )
-
-            if (errorMessage.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = errorMessage,
-                    color = Color.Red,
-                    fontSize = 14.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            // Navigation Buttons
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = onBack,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF1E4976)
-                    ),
-                    modifier = Modifier.width(120.dp)
+                // Sex Selection
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text("Back")
+                    SexButton(
+                        text = "Male",
+                        isSelected = sexState == "Male",
+                        onClick = { 
+                            sexState = "Male"
+                            viewModel.setSex("Male")
+                        }
+                    )
+                    SexButton(
+                        text = "Female",
+                        isSelected = sexState == "Female",
+                        onClick = { 
+                            sexState = "Female"
+                            viewModel.setSex("Female")
+                        }
+                    )
                 }
+
+                // Age Input
+                OutlinedTextField(
+                    value = ageState,
+                    onValueChange = { 
+                        ageState = it
+                        it.toIntOrNull()?.let { age -> viewModel.setAge(age) }
+                    },
+                    label = { Text("Age", color = Color.White) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { weightFocus.requestFocus() }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(ageFocus),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White
+                    )
+                )
+
+                // Weight Input
+                OutlinedTextField(
+                    value = weightState,
+                    onValueChange = { 
+                        weightState = it
+                        it.toIntOrNull()?.let { weight -> viewModel.setWeight(weight) }
+                    },
+                    label = { Text("Weight (kg)", color = Color.White) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { heightFocus.requestFocus() }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(weightFocus),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White
+                    )
+                )
+
+                // Height Input
+                OutlinedTextField(
+                    value = heightState,
+                    onValueChange = { 
+                        heightState = it
+                        it.toIntOrNull()?.let { height -> viewModel.setHeight(height) }
+                    },
+                    label = { Text("Height (cm)", color = Color.White) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { focusManager.clearFocus() }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(heightFocus),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White
+                    )
+                )
+
+                if (errorMessage.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        fontSize = 14.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
 
                 Button(
                     onClick = {
-                        if (sexState == null) {
-                            errorMessage = "Please select your sex"
-                            return@Button
+                        if (isFormValid()) {
+                            onNext(sex, weightState.toFloat(), heightState.toFloat(), ageState.toInt())
                         }
-                        val ageValue = ageState.toIntOrNull()
-                        val weightValue = weightState.toFloatOrNull()
-                        val heightValue = heightState.toFloatOrNull()
-
-                        if (ageValue == null || weightValue == null || heightValue == null) {
-                            errorMessage = "Please fill in all fields with valid numbers"
-                            return@Button
-                        }
-
-                        if (ageValue < 13 || ageValue > 100) {
-                            errorMessage = "Age must be between 13 and 100"
-                            return@Button
-                        }
-
-                        if (weightValue < 30 || weightValue > 200) {
-                            errorMessage = "Weight must be between 30 and 200 kg"
-                            return@Button
-                        }
-
-                        if (heightValue < 100 || heightValue > 250) {
-                            errorMessage = "Height must be between 100 and 250 cm"
-                            return@Button
-                        }
-
-                        errorMessage = ""
-                        onNext(sexState!!, weightValue, heightValue, ageValue)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF1E4976)
+                        containerColor = primaryColor,
+                        contentColor = Color.White
                     ),
-                    modifier = Modifier.width(120.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    enabled = isFormValid()
                 ) {
-                    Text("Next")
+                    Text(
+                        "Avanti",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.sp,
+                            color = Color.White
+                        )
+                    )
                 }
             }
         }
