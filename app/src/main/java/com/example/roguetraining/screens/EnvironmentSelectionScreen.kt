@@ -22,7 +22,7 @@ fun EnvironmentSelectionScreen(
     onEnvironmentSelected: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    var selectedEnvironment by remember { mutableStateOf<TrainingEnvironment?>(null) }
+    var selectedEnvironment by remember { mutableStateOf<TrainingEnvironment?>(TrainingEnvironmentDatabase.environments[1]) }
 
     Box(
         modifier = Modifier

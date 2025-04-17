@@ -27,7 +27,8 @@ fun TrainingTypeScreen(
     onNext: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    var selectedType by remember { mutableStateOf<String?>(null) }
+  //var selectedType by remember { mutableStateOf<String?>(null) }
+    var selectedType by remember { mutableStateOf<String?>("Misto") }
     var errorMessage by remember { mutableStateOf("") }
 
     val backgroundColor = Color(0xFF0A1929)
@@ -78,7 +79,7 @@ fun TrainingTypeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                "Seleziona il tipo di allenamento",
+                "Tipo di allenamento",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = textColor

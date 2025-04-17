@@ -13,7 +13,7 @@ fun IntensityScreen(
     onNext: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    var selectedIntensity by remember { mutableStateOf<TrainingIntensity?>(null) }
+    var selectedIntensity by remember { mutableStateOf<TrainingIntensity?>(TrainingIntensity.MEDIUM) }
 
     Column(
         modifier = Modifier
