@@ -1,6 +1,7 @@
 package com.example.roguetraining.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,12 +13,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.res.painterResource
-import androidx.compose.foundation.Image
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
+import com.example.roguetraining.models.MuscleGroups
 
 @Composable
 fun MuscleGroupsScreen(
@@ -25,30 +26,19 @@ fun MuscleGroupsScreen(
     onNavigateReady: () -> Unit,
     onBack: () -> Unit
 ) {
-    val muscleGroups = mapOf(
-        "Neck" to "Collo",
-        "Trapezius" to "Trapezio",
-        "Shoulders" to "Spalle",
-        "Biceps" to "Bicipiti",
-        "Triceps" to "Tricipiti",
-        "Forearms" to "Avambracci",
-        "Chest" to "Pettorali",
-        "Back" to "Schiena",
-        "Abs" to "Addominali",
-        "Lower back" to "Zona lombare",
-        "Adductors" to "Adduttori",
-        "Abductors" to "Abduttori",
-        "Glutes" to "Glutei",
-        "Hamstrings" to "Femorali",
-        "Quadriceps" to "Quadricipiti",
-        "Calves" to "Polpacci"
-    )
     var selectedGroups by remember { mutableStateOf(emptyList<String>()) }
+
+    // Colori dell'app
+    val backgroundColor = Color(0xFF0A1929)
+    val primaryColor = Color(0xFFFF3257)
+    val textColor = Color.White
+    val inactiveBorderColor = Color.White.copy(alpha = 0.3f)
+    val selectedContainerColor = primaryColor.copy(alpha = 0.15f)
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0A1929)) // Sfondo scuro
+            .background(backgroundColor)
             .padding(16.dp)
     ) {
         Column(
@@ -61,69 +51,70 @@ fun MuscleGroupsScreen(
                 "Gruppi muscolari",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = textColor
                 ),
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 
             Text(
                 "Scegli i gruppi muscolari da allenare:",
-                style = MaterialTheme.typography.titleMedium.copy(color = Color.White),
+                style = MaterialTheme.typography.titleMedium.copy(color = textColor.copy(alpha = 0.8f)),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Sostituito LazyColumn con LazyVerticalGrid per mostrare 2 elementi per riga
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2), // 2 colonne per riga
+                columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
-                items(muscleGroups.keys.toList()) { group ->
+                items(MuscleGroups.all) { muscleGroup ->
+                    val isSelected = muscleGroup.name in selectedGroups
+
                     OutlinedButton(
                         onClick = {
-                            selectedGroups = if (group in selectedGroups) {
-                                selectedGroups - group
+                            selectedGroups = if (isSelected) {
+                                selectedGroups - muscleGroup.name
                             } else {
-                                selectedGroups + group
+                                selectedGroups + muscleGroup.name
                             }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(56.dp),
-                        shape = RoundedCornerShape(8.dp),
+                            .defaultMinSize(minHeight = 46.dp),
+                        shape = RoundedCornerShape(10.dp),
                         border = BorderStroke(
-                            width = 2.dp,
-                            color = if (group in selectedGroups) Color(0xFFFF3257) else Color.Gray.copy(alpha = 0.5f)
+                            width = 1.5.dp,
+                            color = if (isSelected) primaryColor else inactiveBorderColor
                         ),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = if (group in selectedGroups) Color(0xFFFF3257).copy(alpha = 0.2f) else Color.Transparent,
-                            contentColor = Color.White
-                        )
+                            containerColor = if (isSelected) selectedContainerColor else Color.Transparent,
+                            contentColor = textColor
+                        ),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                     ) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = muscleGroups[group] ?: group,
+                                text = muscleGroup.translation,
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                textAlign = TextAlign.Start,
                                 modifier = Modifier.weight(1f)
                             )
 
+                            Spacer(modifier = Modifier.width(8.dp))
+
                             Image(
-                                painter = painterResource(id = android.R.drawable.ic_menu_gallery),
-                                contentDescription = "Muscle group image",
+                                painter = painterResource(id = muscleGroup.imageResId),
+                                contentDescription = muscleGroup.translation,
                                 modifier = Modifier
-                                    .size(24.dp)
-                                    .padding(bottom = 4.dp),
-                                contentScale = ContentScale.Fit
+                                    .size(36.dp)
                             )
                         }
                     }
@@ -132,28 +123,28 @@ fun MuscleGroupsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Bottone Prosegui che rimane fisso in basso
             Button(
                 onClick = {
-                    onNext(selectedGroups)  // Salva i gruppi selezionati
-                    onNavigateReady()  // Vai alla schermata successiva
+                    onNext(selectedGroups)
+                    onNavigateReady()
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFF3257),
-                    contentColor = Color.White
+                    containerColor = primaryColor,
+                    contentColor = textColor,
+                    disabledContainerColor = primaryColor.copy(alpha = 0.5f),
+                    disabledContentColor = textColor.copy(alpha = 0.7f)
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                shape = RoundedCornerShape(8.dp),
-                enabled = selectedGroups.isNotEmpty() // Il bottone si attiva solo se è selezionato almeno un gruppo
+                shape = RoundedCornerShape(28.dp),
+                enabled = selectedGroups.isNotEmpty()
             ) {
                 Text(
                     "Prosegui",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp,
-                        color = Color.White
+                        letterSpacing = 1.sp
                     )
                 )
             }
