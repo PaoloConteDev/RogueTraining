@@ -121,7 +121,7 @@ fun WelcomeScreen(
             // Pulsante in basso
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(bottom = 30.dp)
+                modifier = Modifier.padding(bottom = 10.dp)
             ) {
                 Button(
                     onClick = onStartWorkout,
@@ -140,16 +140,6 @@ fun WelcomeScreen(
                         )
                     )
                 }
-
-                Text(
-                    text = "Log In",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.White.copy(alpha = 0.7f)
-                    ),
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .clickable { /* Gestisci login in futuro */ }
-                )
             }
         }
     }

@@ -158,19 +158,26 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
             Log.d("WorkoutViewModel", "Filtered exercises count: ${exercises.size}")
             
             val workoutDuration = duration.value
-            val intensityFactor = when (intensity.value) {
-                TrainingIntensity.LOW -> 0.8
-                TrainingIntensity.MEDIUM -> 1.0
-                TrainingIntensity.HIGH -> 1.2
-                null -> 1.0
-            }
+            val currentIntensity = intensity.value ?: TrainingIntensity.MEDIUM
 
-            // Determine number of exercises based on duration
+            // Determine number of exercises based on duration and intensity
             val targetExerciseCount = when (workoutDuration) {
-                30 -> 3  // Short workout: 3 exercises
-                60 -> 7  // Medium workout: 7 exercises
-                90 -> 10 // Long workout: 10 exercises
-                else -> 7 // Default to medium
+                30 -> when (currentIntensity) {
+                    TrainingIntensity.LOW -> 4  // More exercises with fewer sets
+                    TrainingIntensity.MEDIUM -> 3  // Balanced approach
+                    TrainingIntensity.HIGH -> 2   // Fewer exercises with more sets
+                }
+                60 -> when (currentIntensity) {
+                    TrainingIntensity.LOW -> 8
+                    TrainingIntensity.MEDIUM -> 6
+                    TrainingIntensity.HIGH -> 4
+                }
+                90 -> when (currentIntensity) {
+                    TrainingIntensity.LOW -> 12
+                    TrainingIntensity.MEDIUM -> 8
+                    TrainingIntensity.HIGH -> 6
+                }
+                else -> 6 // Default to medium
             }
 
             val workoutSets = mutableListOf<WorkoutSet>()
@@ -191,37 +198,46 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
             // Distribute exercises across available time
             for (exercise in selectedExercises) {
                 try {
-                    val sets = when (exercise.difficulty) {
-                        Difficulty.BEGINNER -> 3
-                        Difficulty.INTERMEDIATE -> 4
-                        Difficulty.ADVANCED -> 5
+                    // Calculate sets and reps based on intensity and difficulty
+                    val (sets, reps) = when (currentIntensity) {
+                        TrainingIntensity.LOW -> when (exercise.difficulty) {
+                            Difficulty.BEGINNER -> 2 to 12..15  // 2 sets for beginners
+                            Difficulty.INTERMEDIATE -> 3 to 12..15  // 3 sets for intermediates
+                            Difficulty.ADVANCED -> 3 to 12..15  // 3 sets for advanced
+                        }
+                        TrainingIntensity.MEDIUM -> when (exercise.difficulty) {
+                            Difficulty.BEGINNER -> 3 to 8..12  // 3 sets for beginners
+                            Difficulty.INTERMEDIATE -> 4 to 8..12  // 4 sets for intermediates
+                            Difficulty.ADVANCED -> 4 to 8..12  // 4 sets for advanced
+                        }
+                        TrainingIntensity.HIGH -> when (exercise.difficulty) {
+                            Difficulty.BEGINNER -> 4 to 4..6  // 4 sets for beginners
+                            Difficulty.INTERMEDIATE -> 5 to 4..6  // 5 sets for intermediates
+                            Difficulty.ADVANCED -> 5 to 4..6  // 5 sets for advanced
+                        }
                     }
-                    
-                    val reps = when (exercise.difficulty) {
-                        Difficulty.BEGINNER -> 8..12
-                        Difficulty.INTERMEDIATE -> 10..15
-                        Difficulty.ADVANCED -> 12..20
-                    }.random()
 
                     // Calculate time needed for this exercise
-                    val exerciseTime = (sets * (reps * 3 + baseRestTime)) // 3 seconds per rep + rest time
+                    val exerciseTime = (sets * (reps.last * 3 + baseRestTime)) // 3 seconds per rep + rest time
                     if (exerciseTime > remainingTime) break
-
-                    val restTime = (baseRestTime * intensityFactor).toInt()
 
                     // Calculate recommended weight for all exercises
                     val recommendedWeight = try {
-                        val (minWeight, maxWeight) = WeightCalculator.getWeightRange(
-                            sex = sex.value,
-                            bodyWeight = weight.value.toFloat(),
-                            height = height.value.toFloat(),
-                            age = age.value,
-                            intensity = intensity.value ?: TrainingIntensity.MEDIUM,
-                            muscleGroup = exercise.primaryMuscleGroup,
-                            exerciseName = exercise.name
-                        )
-                        Log.d("WorkoutViewModel", "Calculated weight for ${exercise.name}: $minWeight-$maxWeight kg")
-                        "$minWeight-$maxWeight kg"
+                        if (exercise.supportsWeights) {
+                            val (minWeight, maxWeight) = WeightCalculator.getWeightRange(
+                                sex = sex.value,
+                                bodyWeight = weight.value.toFloat(),
+                                height = height.value.toFloat(),
+                                age = age.value,
+                                intensity = currentIntensity,
+                                muscleGroup = exercise.primaryMuscleGroup,
+                                exerciseName = exercise.name
+                            )
+                            Log.d("WorkoutViewModel", "Calculated weight for ${exercise.name}: $minWeight-$maxWeight kg")
+                            "$minWeight-$maxWeight kg"
+                        } else {
+                            null
+                        }
                     } catch (e: Exception) {
                         Log.e("WorkoutViewModel", "Error calculating weight for exercise ${exercise.name}: ${e.message}")
                         null
@@ -230,13 +246,13 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
                     workoutSets.add(WorkoutSet(
                         exercise = exercise,
                         sets = sets,
-                        reps = reps,
-                        restTime = restTime,
+                        reps = reps.first,  // Use the lower bound of the rep range
+                        restTime = baseRestTime,
                         recommendedWeight = recommendedWeight
                     ))
                     remainingTime -= exerciseTime
                     
-                    Log.d("WorkoutViewModel", "Added exercise: ${exercise.name} with sets: $sets, reps: $reps")
+                    Log.d("WorkoutViewModel", "Added exercise: ${exercise.name} with sets: $sets, reps: ${reps.first}")
                 } catch (e: Exception) {
                     Log.e("WorkoutViewModel", "Error processing exercise ${exercise.name}: ${e.message}")
                 }
@@ -247,7 +263,6 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         } catch (e: Exception) {
             Log.e("WorkoutViewModel", "Error generating workout: ${e.message}")
             e.printStackTrace()
-            // In caso di errore, imposta una lista vuota per evitare crash
             _currentWorkout.value = emptyList()
         }
     }
