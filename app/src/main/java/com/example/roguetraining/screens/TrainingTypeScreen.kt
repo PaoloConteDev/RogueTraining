@@ -79,12 +79,15 @@ fun TrainingTypeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                "Tipo di allenamento",
+                text = "Tipo di allenamento",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = textColor
                 ),
-                modifier = Modifier.padding(bottom = 20.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+                    .padding(bottom = 20.dp)
             )
 
             LazyColumn(

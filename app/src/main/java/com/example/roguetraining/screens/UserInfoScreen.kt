@@ -101,7 +101,7 @@ fun UserInfoScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             Text(
                 "Informazioni Utente",
@@ -109,15 +109,16 @@ fun UserInfoScreen(
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 ),
-                modifier = Modifier.padding(bottom = 20.dp)
+                modifier = Modifier.padding(bottom = 18.dp)
             )
 
             Text(
                 "Inserisci i tuoi dati per un allenamento personalizzato",
                 style = MaterialTheme.typography.titleMedium.copy(
+                    fontSize = 14.sp,
                     color = Color.White.copy(alpha = 0.8f)
                 ),
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 28.dp)
             )
 
             Column(
@@ -154,7 +155,7 @@ fun UserInfoScreen(
                         ageState = it
                         it.toIntOrNull()?.let { age -> viewModel.setAge(age) }
                     },
-                    label = { Text("Age", color = Color.White) },
+                    label = { Text("Età", color = Color.White) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next
@@ -182,7 +183,7 @@ fun UserInfoScreen(
                         weightState = it
                         it.toIntOrNull()?.let { weight -> viewModel.setWeight(weight) }
                     },
-                    label = { Text("Weight (kg)", color = Color.White) },
+                    label = { Text("Peso (kg)", color = Color.White) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next
@@ -210,7 +211,7 @@ fun UserInfoScreen(
                         heightState = it
                         it.toIntOrNull()?.let { height -> viewModel.setHeight(height) }
                     },
-                    label = { Text("Height (cm)", color = Color.White) },
+                    label = { Text("Altezzo (cm)", color = Color.White) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
@@ -290,7 +291,7 @@ fun SexButton(
         border = BorderStroke(1.dp, Color.White)
     ) {
         Text(
-            text = if (text == "Male") "♂ Male" else "♀ Female",
+            text = if (text == "Male") "♂ Uomo" else "♀ Donna",
             color = if (isSelected) Color(0xFF0A1929) else Color.White,
             style = MaterialTheme.typography.titleMedium
         )
