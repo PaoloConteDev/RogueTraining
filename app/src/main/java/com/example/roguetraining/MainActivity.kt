@@ -131,12 +131,9 @@ class MainActivity : ComponentActivity() {
                                 exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
                             ) {
                                 WelcomeScreen(
-                                    onStartWorkout = {
-                                        navController.navigate("userInfo")
-                                    },
-                                    onBack = {
-                                        navController.navigateUp()
-                                    }
+                                    onStartWorkout = { navController.navigate("userInfo") },
+                                    onBack = { navController.navigateUp() },
+                                    viewModel = viewModel
                                 )
                             }
                             composable(

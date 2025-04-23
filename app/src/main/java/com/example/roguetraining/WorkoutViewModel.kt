@@ -25,6 +25,9 @@ private fun Int.toMinutes(): Int {
 class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
     private val userPreferences = UserPreferences(application)
 
+    private val _language = MutableStateFlow("en") // Default to English
+    val language: StateFlow<String> = _language.asStateFlow()
+
     private val _sex = MutableStateFlow("")
     val sex: StateFlow<String> = _sex.asStateFlow()
 
@@ -78,6 +81,11 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
                 Log.e("WorkoutViewModel", "Error loading user data: ${e.message}")
             }
         }
+    }
+
+    fun setLanguage(lang: String) {
+        _language.value = lang
+        // TODO: Save language preference
     }
 
     fun setSex(value: String) {

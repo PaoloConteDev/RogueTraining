@@ -19,12 +19,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roguetraining.R
+import com.example.roguetraining.WorkoutViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun WelcomeScreen(
     onStartWorkout: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: WorkoutViewModel
 ) {
+    var showLanguageMenu by remember { mutableStateOf(false) }
+    val language by viewModel.language.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,6 +58,76 @@ fun WelcomeScreen(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Language selection button at the top
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp, end = 2.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xFF0A1929).copy(alpha = 0.7f),
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                        .size(32.dp)
+                ) {
+                    TextButton(
+                        onClick = { showLanguageMenu = true },
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = Color.White
+                        ),
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+                        Text(
+                            text = when (language) {
+                                "en" -> "🇬🇧"
+                                "it" -> "🇮🇹"
+                                else -> "🌐"
+                            },
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp
+                            )
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = showLanguageMenu,
+                        onDismissRequest = { showLanguageMenu = false },
+                        modifier = Modifier.background(Color(0xFF0A1929))
+                    ) {
+                        DropdownMenuItem(
+                            text = { 
+                                Text(
+                                    "🇬🇧 English",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            },
+                            onClick = {
+                                viewModel.setLanguage("en")
+                                showLanguageMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { 
+                                Text(
+                                    "🇮🇹 Italiano",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            },
+                            onClick = {
+                                viewModel.setLanguage("it")
+                                showLanguageMenu = false
+                            }
+                        )
+                    }
+                }
+            }
+
             // Logo in alto
             Text(
                 text = "ROGUETRAINING",
