@@ -20,6 +20,16 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 import com.example.roguetraining.models.MuscleGroups
 
+// Enum for macro muscle groups
+enum class MacroMuscleGroup(val displayName: String, val muscleGroups: List<String>) {
+    PUSH("Push", listOf("Chest", "Shoulders", "Triceps")),
+    PULL("Pull", listOf("Back", "Biceps", "Forearms")),
+    LEGS("Legs", listOf("Quadriceps", "Hamstrings", "Glutes", "Adductors", "Abductors", "Calves")),
+    CORE("Core", listOf("Abs", "Lower back", "Obliques")),
+    CUSTOM("Custom", emptyList())
+}
+
+
 @Composable
 fun MuscleGroupsScreen(
     onNext: (List<String>) -> Unit,
@@ -27,6 +37,7 @@ fun MuscleGroupsScreen(
     onBack: () -> Unit
 ) {
     var selectedGroups by remember { mutableStateOf(emptyList<String>()) }
+    var selectedMacroGroup by remember { mutableStateOf<MacroMuscleGroup?>(null) }
 
     // Colori dell'app
     val backgroundColor = Color(0xFF0A1929)
@@ -34,6 +45,18 @@ fun MuscleGroupsScreen(
     val textColor = Color.White
     val inactiveBorderColor = Color.White.copy(alpha = 0.3f)
     val selectedContainerColor = primaryColor.copy(alpha = 0.15f)
+
+    // Function to handle macro group selection
+    fun selectMacroGroup(macroGroup: MacroMuscleGroup) {
+        selectedMacroGroup = macroGroup
+        selectedGroups = when (macroGroup) {
+            MacroMuscleGroup.PUSH -> macroGroup.muscleGroups
+            MacroMuscleGroup.PULL -> macroGroup.muscleGroups
+            MacroMuscleGroup.LEGS -> macroGroup.muscleGroups
+            MacroMuscleGroup.CORE -> macroGroup.muscleGroups
+            MacroMuscleGroup.CUSTOM -> emptyList()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -62,6 +85,52 @@ fun MuscleGroupsScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Macro Group Buttons
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                MacroMuscleGroup.values().forEach { macroGroup ->
+                    val isSelected = selectedMacroGroup == macroGroup
+                    
+                    OutlinedButton(
+                        onClick = { selectMacroGroup(macroGroup) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                            .height(40.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        border = BorderStroke(
+                            width = 1.5.dp,
+                            color = if (isSelected) primaryColor else inactiveBorderColor
+                        ),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = if (isSelected) selectedContainerColor else Color.Transparent,
+                            contentColor = textColor
+                        ),
+                        contentPadding = PaddingValues(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            text = macroGroup.displayName,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            // Divider
+            Divider(
+                color = inactiveBorderColor,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -76,10 +145,21 @@ fun MuscleGroupsScreen(
 
                     OutlinedButton(
                         onClick = {
-                            selectedGroups = if (isSelected) {
-                                selectedGroups - muscleGroup.name
+                            // If custom is selected, allow individual selection
+                            if (selectedMacroGroup == MacroMuscleGroup.CUSTOM) {
+                                selectedGroups = if (isSelected) {
+                                    selectedGroups - muscleGroup.name
+                                } else {
+                                    selectedGroups + muscleGroup.name
+                                }
                             } else {
-                                selectedGroups + muscleGroup.name
+                                // If a macro group is selected, switch to custom mode
+                                selectedMacroGroup = MacroMuscleGroup.CUSTOM
+                                selectedGroups = if (isSelected) {
+                                    selectedGroups - muscleGroup.name
+                                } else {
+                                    selectedGroups + muscleGroup.name
+                                }
                             }
                         },
                         modifier = Modifier

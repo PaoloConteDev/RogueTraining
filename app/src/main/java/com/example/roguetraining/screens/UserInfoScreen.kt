@@ -290,7 +290,7 @@ fun SexButton(
         border = BorderStroke(1.dp, Color.White)
     ) {
         Text(
-            text = text,
+            text = if (text == "Male") "♂ Male" else "♀ Female",
             color = if (isSelected) Color(0xFF0A1929) else Color.White,
             style = MaterialTheme.typography.titleMedium
         )
