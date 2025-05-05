@@ -111,7 +111,7 @@ fun WorkoutScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Current Workout",
+                        text = "Workout",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = AppColors.white
@@ -341,7 +341,7 @@ fun WorkoutScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = if (isResting) AppColors.primary else AppColors.green)
                     ) {
                         Text(
-                            text = if (isResting) "Skip Rest" else "Complete Set",
+                            text = if (isResting) "Salta Riposo" else "Completa Set",
                             color = AppColors.white,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -451,7 +451,7 @@ fun SetItem(
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = "$reps reps",
+            text = "$reps ripetizioni",
             style = MaterialTheme.typography.bodyLarge,
 
             color = when {

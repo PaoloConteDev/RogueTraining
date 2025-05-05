@@ -82,8 +82,9 @@ fun WelcomeScreen(
                     ) {
                         Text(
                             text = when (language) {
-                                "en" -> "🇬🇧"
                                 "it" -> "🇮🇹"
+                                "en" -> "🇬🇧"                          
+                                "es" -> "🇪🇸"
                                 else -> "🌐"
                             },
                             style = MaterialTheme.typography.labelSmall.copy(
@@ -101,19 +102,6 @@ fun WelcomeScreen(
                         DropdownMenuItem(
                             text = { 
                                 Text(
-                                    "🇬🇧 English",
-                                    color = Color.White,
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            },
-                            onClick = {
-                                viewModel.setLanguage("en")
-                                showLanguageMenu = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { 
-                                Text(
                                     "🇮🇹 Italiano",
                                     color = Color.White,
                                     style = MaterialTheme.typography.bodySmall
@@ -124,13 +112,39 @@ fun WelcomeScreen(
                                 showLanguageMenu = false
                             }
                         )
+                        DropdownMenuItem(
+                            text = { 
+                                Text(
+                                    "🇬🇧 English",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            },
+                            onClick = {
+                                viewModel.setLanguage("en")
+                                showLanguageMenu = false
+                            }         
+                        )
+                        DropdownMenuItem(
+                            text = { 
+                                Text(
+                                    "🇪🇸 Español",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            },
+                            onClick = {
+                                viewModel.setLanguage("es")
+                                showLanguageMenu = false
+                            }
+                        )
                     }
                 }
             }
 
             // Logo in alto
             Text(
-                text = "ROGUETRAINING",
+                text = "ROGUE TRAINING",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp,
@@ -144,21 +158,14 @@ fun WelcomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(vertical = 40.dp)
             ) {
-                Text(
-                    text = "Train Smarter.\nLive Better.",
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
-                    textAlign = TextAlign.Center
-                )
 
                 Text(
                     text = "Allenamento personalizzato al tuo servizio",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        color = Color.White
+                    style = MaterialTheme.typography.displaySmall.copy(
+                        color = Color.White,
+                        fontSize = 28.sp
                     ),
-                    modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(top = 8.dp, bottom = 32.dp),
                     textAlign = TextAlign.Center
                 )
 

@@ -143,7 +143,7 @@ fun FrequencyScreen(
                         modifier = Modifier.padding(end = 12.dp)
                     )
                     Text(
-                        text = "Consigliamo 3-4 sessioni settimanali per ottenere i migliori risultati mantenendo un buon equilibrio con i tempi di recupero.",
+                        text = "Consigliamo 3 sessioni settimanali per ottenere i migliori risultati mantenendo un buon equilibrio con i tempi di recupero.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = textColor
                     )
@@ -152,7 +152,7 @@ fun FrequencyScreen(
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // Pulsante Continua
+            // Pulsante Avanti
             Button(
                 onClick = { onNext(sessionsPerWeek.toInt()) },
                 modifier = Modifier
@@ -164,7 +164,7 @@ fun FrequencyScreen(
                 )
             ) {
                 Text(
-                    text = "Continua",
+                    text = "Avanti",
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )

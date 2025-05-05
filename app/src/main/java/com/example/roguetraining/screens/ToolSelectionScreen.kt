@@ -27,7 +27,7 @@ fun ToolSelectionScreen(
     ) {
         if (environment != null) {
             Text(
-                text = "Customize Your Equipment",
+                text = "Personalizza Attrezzatura",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -102,7 +102,7 @@ fun ToolSelectionScreen(
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Next")
+            Text("Avanti")
         }
     }
 } 

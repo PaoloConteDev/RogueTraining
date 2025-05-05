@@ -25,7 +25,7 @@ enum class MacroMuscleGroup(val displayName: String, val muscleGroups: List<Stri
     PUSH("Push", listOf("Chest", "Shoulders", "Triceps")),
     PULL("Pull", listOf("Back", "Biceps", "Forearms")),
     LEGS("Legs", listOf("Quadriceps", "Hamstrings", "Glutes", "Adductors", "Abductors", "Calves")),
-    CORE("Core", listOf("Abs", "Lower back", "Obliques")),
+    TOTAL("Total", listOf("Shoulders", "Biceps", "Triceps", "Chest", "Back", "Abs", "Lower back", "Glutes", "Hamstrings", "Quadriceps")),
     CUSTOM("Custom", emptyList())
 }
 
@@ -53,7 +53,7 @@ fun MuscleGroupsScreen(
             MacroMuscleGroup.PUSH -> macroGroup.muscleGroups
             MacroMuscleGroup.PULL -> macroGroup.muscleGroups
             MacroMuscleGroup.LEGS -> macroGroup.muscleGroups
-            MacroMuscleGroup.CORE -> macroGroup.muscleGroups
+            MacroMuscleGroup.TOTAL -> macroGroup.muscleGroups
             MacroMuscleGroup.CUSTOM -> emptyList()
         }
     }
@@ -221,7 +221,7 @@ fun MuscleGroupsScreen(
                 enabled = selectedGroups.isNotEmpty()
             ) {
                 Text(
-                    "Prosegui",
+                    "Avanti",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.sp

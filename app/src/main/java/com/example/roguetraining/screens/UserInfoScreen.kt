@@ -211,7 +211,7 @@ fun UserInfoScreen(
                         heightState = it
                         it.toIntOrNull()?.let { height -> viewModel.setHeight(height) }
                     },
-                    label = { Text("Altezzo (cm)", color = Color.White) },
+                    label = { Text("Altezza (cm)", color = Color.White) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
